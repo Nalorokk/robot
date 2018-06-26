@@ -8,6 +8,12 @@ $( document ).ready(function() {
 	var left = false;
 	var right = false;
 
+	var powerup = false;
+	var powerdown = false;
+
+	var power = 100;
+	var sentPower = 0;
+
 	var preventRepeat = false;
 
 
@@ -29,6 +35,27 @@ $( document ).ready(function() {
   				preventRepeat = true;
   				$.get( "/cmd/stop" );
   			}
+  		}
+
+
+  		if(powerup) {
+  			power += 5;
+  			if(power > 100) {
+  				power = 100;
+  			}
+  		}
+  		if(powerdown) {
+  			power -= 5;
+  			if(power < 0) {
+  				power = 0;
+  			}
+  		}
+
+  		if(sentPower != power) {
+  			$.get( "/cmd/power/"+power );
+  			sentPower = power;
+
+  			$( "#pwr" ).html( power );
   		}
 	}, 100);
 
@@ -65,7 +92,21 @@ $( document ).ready(function() {
 	  console.log('d is released');
 	  right = false;
 	});
+
+
+	keyboardJS.bind('r', function(e) {
+  		e.preventRepeat();
+	  powerup = true;
+	}, function(e) {
+	  powerup = false;
+	});
+	keyboardJS.bind('f', function(e) {
+  		e.preventRepeat();
+	  powerdown = true;
+	}, function(e) {
+	  powerdown = false;
+	});
 });
 
 </script>
-<h1>LOL</h1>
+<h1>Current power: <p id="pwr">100</p>%</h1>

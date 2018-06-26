@@ -1,0 +1,71 @@
+<script src="jquery-3.3.1.min.js"></script>
+<script src="keyboard.min.js"></script>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+	var forward = false;
+	var backward = false;
+	var left = false;
+	var right = false;
+
+	var preventRepeat = false;
+
+
+	setInterval(function() {
+  		if(forward) {
+  			$.get( "/cmd/forward" );
+  			preventRepeat = false;
+  		} else if(backward) {
+  			$.get( "/cmd/backward" );
+  			preventRepeat = false;
+  		} else if(left) {
+  			$.get( "/cmd/left" );
+  			preventRepeat = false;
+  		} else if(right) {
+  			$.get( "/cmd/right" );
+  			preventRepeat = false;
+  		} else {
+  			if(!preventRepeat) {
+  				preventRepeat = true;
+  				$.get( "/cmd/stop" );
+  			}
+  		}
+	}, 100);
+
+
+  	keyboardJS.bind('w', function(e) {
+  		e.preventRepeat();
+	  console.log('w is pressed');
+	  forward = true;
+	}, function(e) {
+	  console.log('w is released');
+	  forward = false;
+	});
+	keyboardJS.bind('a', function(e) {
+  		e.preventRepeat();
+	  console.log('a is pressed');
+	  left = true;
+	}, function(e) {
+	  console.log('a is released');
+	  left = false;
+	});
+	keyboardJS.bind('s', function(e) {
+  		e.preventRepeat();
+	  console.log('s is pressed');
+	  backward = true;
+	}, function(e) {
+	  console.log('s is released');
+	  backward = false;
+	});
+	keyboardJS.bind('d', function(e) {
+  		e.preventRepeat();
+	  console.log('d is pressed');
+	  right = true;
+	}, function(e) {
+	  console.log('d is released');
+	  right = false;
+	});
+});
+
+</script>
+<h1>LOL</h1>
